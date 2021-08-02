@@ -29,6 +29,7 @@ maxVol = volRange[1]
 
 vol = 0
 volbar = 400
+volPer = 0
 while True:
     success, img = cap.read()
     img = detector.findHands(img)
@@ -48,7 +49,7 @@ while True:
         print(length)
         vol = np.interp(length, [50, 200], [minVol, maxVol])
         volBar = np.interp(length, [50, 200], [400, 150])
-
+        volPer = np.interp(length, [50, 200], [0, 100])
         print(int(length), vol)
 
         volume.SetMasterVolumeLevel(vol, None)
@@ -63,6 +64,6 @@ while True:
     fps = 1 / (cTime - pTime)
     pTime = cTime
 
-    cv2.putText(img, f'Fps: {int(fps)}', (40, 70), cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0), 2)
+    cv2.putText(img, f'{int(volPer)} %', (40, 450), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
     cv2.imshow("Image", img)
     cv2.waitKey(1)
